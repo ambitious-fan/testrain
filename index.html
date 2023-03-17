@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        http-equiv="X-UA-Compatible"
+        content="IE=edge"
+    >
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>下雨表现</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .contain {
+            width: 100vw;
+            height: 100vh;
+            background: url(./imga/01.jpg) center center no-repeat;
+            background-size: cover;
+        }
+
+        #rainBox {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(rgba(255, 2555, 255, .3), rgba(255, 255, 255, .6));
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contain">
+        <div id="rainBox"></div>
+    </div>
+</body>
+<script>
+    const box = document.getElementById('rainBox');
+    let boxWidth = box.clientWidth;
+    let boxHeight = box.clientHeight;
+    window.onresize = function () {
+        boxHeight = box.clientHeight;
+        boxWidth = box.clientWidth;
+    }
+    // 每隔一段时间添加水滴
+    setInterval(() => {
+        const rain = document.createElement('div');
+        rain.classList.add('rain');
+        rain.style.top = 0;
+        //雨点随机高度
+        rain.style.left = Math.random() * boxWidth + 'px';
+        //随机透明度
+        rain.style.opacity = Math.random();
+        box.appendChild(rain);
+        // 每隔一段时间雨水下落
+        let race = 1;
+        const timer = setInterval(() => {
+            if (parseInt(rain.style.top) > boxHeight) {
+                clearInterval(timer);
+                box.removeChild(rain)
+            }
+            race++;
+            rain.style.top = parseInt(rain.style.top) + race + 'px';
+        }, 20)
+    }, 50)
+</script>
+
+</html>
